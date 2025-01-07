@@ -1,0 +1,27 @@
+/* NavBar.css */
+
+/* Styles for the navigation bar */
+.navbar {
+    background-color: #333; /* Change background color as desired */
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  /* Styles for the navigation bar heading */
+  .navbar h1 {
+    margin: 0;
+  }
+  
+  /* Styles for the navigation bar link */
+  .navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+  }
+  
+  /* Styles for the navigation bar link on hover */
+  .navbar a:hover {
+    text-decoration: underline;
+  }
+  

@@ -1,0 +1,99 @@
+/* problemid.css */
+.boxWrapper{
+  margin: 5vh;
+}
+.problem-id-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.problem-details {
+  max-width: 600px;
+  margin-left: 3vh;
+}
+
+.problem-description {
+  margin-top: 20px;
+}
+
+.submission-form {
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.submission-button{
+  margin-left: 5%;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.label {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button[type="submit"],button[type="run"],
+.submission-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.submission-button {
+  background-color: #28a745;
+}
+
+/* Flex layout for responsive design */
+@media (max-width: 768px) {
+  .problem-id-page {
+    grid-template-columns: 1fr;
+  }
+}
+
+.custom-dropdown {
+  appearance: none; /* Disable default styles */
+  background-color: #f2f2f2; /* Dropdown background color */
+  border: 1px solid #ccc; /* Border color */
+  padding: 8px 12px; /* Padding for better appearance */
+  font-size: 16px; /* Font size for the options */
+  border-radius: 4px; /* Rounded corners */
+  width: 100%; /* Set the width of the dropdown to its container */
+  outline: none; /* Remove outline on focus (optional) */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+
+.custom-dropdown:hover {
+  background-color: #e0e0e0; /* Background color on hover */
+}
+
+.custom-dropdown option {
+  padding: 8px; /* Padding for the options */
+}
+
+/* Optional: Style the label for better alignment */
+.label {
+  display: block;
+  margin-bottom: 8px;
+}

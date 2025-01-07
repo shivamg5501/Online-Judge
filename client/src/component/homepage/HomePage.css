@@ -1,0 +1,82 @@
+/* HomePage.css */
+
+/* Header styles */
+.header {
+  background: #333;
+  color: #fff;
+  padding: 1rem;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  align-items: center; /* Align links vertically centered */
+}
+
+.nav-links li {
+  display: inline; /* Display list items horizontally */
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+  background-color: #555;
+}
+
+.login {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Add spacing between login button and sign-up button */
+}
+
+.login button {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  padding: 0.5rem 1rem;
+}
+
+.login button:hover {
+  background-color: #0056b3;
+}
+
+/* Main content styles */
+.main {
+  padding: 2rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.paragraph {
+  font-size: 1.2rem;
+}
