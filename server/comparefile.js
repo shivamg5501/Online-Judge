@@ -9,7 +9,7 @@ async function calculateFileMD5(filePath) {
     const md5Hash = crypto.createHash('md5').update(fileData).digest('hex');
     return md5Hash;
   } catch (error) {
-    throw new Error(`Error reading file or calculating MD6 hash: ${error.message}`);
+    throw new Error(`Error reading file or calculating MD10  and hash: ${error.message}`);
   }
 }
 
