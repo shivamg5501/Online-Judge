@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 
-export const AccountContext = createContext(null);
+export const AccountContext = createContext('');
 
 const AccountProvider = ({ children }) => {
     const [account, setAccount] = useState();

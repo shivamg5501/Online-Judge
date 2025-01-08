@@ -7,7 +7,7 @@
 }
 .problem-List{
   height: 87vh;
-  background-image: url(../../../Images/problempageImage.jpg);
+  /* background-image: url(../../../Images/problempageImage.jpg); */
 }
 .problem-item {
   margin: 10px;

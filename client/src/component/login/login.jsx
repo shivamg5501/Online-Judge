@@ -2,9 +2,12 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../../contest/AccountProvider';
 import { LockKeyhole, Mail, ArrowRight } from 'lucide-react';
+import { useAuth } from '../../AuthProvider';
+
 
 const Login = () => {
   const { setAccount } = useContext(AccountContext);
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -27,12 +30,13 @@ const Login = () => {
       
       const data = await response.json();
       localStorage.setItem("token", data.message.token);
-      setAccount(data.message.obj);
+      login();
+      // setAccount(data.message.obj);
       navigate('/problem');
     } catch (error) {
       if (error.response?.status === 405) {
         alert('Invalid credentials. Please check your password.');
-        navigate('/login');
+        navigate('/');
       } else {
         navigate('/register');
       }

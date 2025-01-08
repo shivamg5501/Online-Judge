@@ -8,27 +8,73 @@ import ProblemIdPage from './component/problemid/problemid';
 import ProblemSubmission from './component/problemSubmitted/problemSubmitted';
 import ProblemSubmissionCode from './component/problemSubmission/problemSubmission';
 import Nav from './component/Profile/LeftNav';
-import AccountProvider from './contest/AccountProvider';
 import Profile from './component/Profile/Profile';
+import { AuthProvider } from './AuthProvider';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   return (
-      <div className='App'>
-      <AccountProvider>
+    <div className="App">
+      <AuthProvider>
         <Router>
           <Routes>
-            <Route path='/' element={<HomePage />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/problem' element={<ProblemName />} />
-            <Route path='/problem/:id' element={<ProblemIdPage />} />
-            <Route path='/problem/:id/submission' element={<ProblemSubmission />} />
-            <Route path='/problem/submission/:id' element={<ProblemSubmissionCode />} />
-            <Route path='/Nav' element={<Nav />} />
-            <Route path='/profile' element={<Profile/>}/>
+            {/* Public Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<Register />} />
+  
+            {/* Protected Routes */}
+            <Route
+              path="/problem"
+              element={
+                <ProtectedRoute>
+                  <ProblemName />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/problem/:id"
+              element={
+                <ProtectedRoute>
+                  <ProblemIdPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/problem/:id/submission"
+              element={
+                <ProtectedRoute>
+                  <ProblemSubmission />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/problem/submission/:id"
+              element={
+                <ProtectedRoute>
+                  <ProblemSubmissionCode />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/nav"
+              element={
+                <ProtectedRoute>
+                  <Nav />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Router>
-        </AccountProvider>
-      </div>
+      </AuthProvider>
+    </div>
   );
 }
 
