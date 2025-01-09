@@ -29,6 +29,9 @@ CoderunningRoute.post("/problem/run", async (req, res) => {
     if(language=='javascript'){
       output = await executeJs(filePath, inputFile,language);
     }
+    if(language=='python'){
+      output = await executePy(filePath,inputFile,language);
+    }
     // console.log(output);
     const outputdataBuffer = await fs.readFile(output);
     // console.log("outputdataBuffer", outputdataBuffer);
