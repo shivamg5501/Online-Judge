@@ -4,6 +4,7 @@ import executeCpp from '../executeCpp.js';
 import inputFileRun from '../inputfileRun.js';
 import fs from 'fs/promises'; // Import fs.promises for awaitable file operations
 import { unlink } from 'fs'; // Import fs.unlink to delete files
+import  executeJs  from '../executeJs.js';
 
 const CoderunningRoute = express.Router();
 
@@ -19,9 +20,14 @@ CoderunningRoute.post("/problem/run", async (req, res) => {
     console.log(inputFile);
 
     const filePath = await generateFile(language, code);
-    console.log(filePath);
-
-    const output = await executeCpp(filePath, inputFile,language);
+    console.log('filePath',filePath);
+    let output;
+    if(language=='cpp'){
+      output = await executeCpp(filePath, inputFile,language);
+    }
+    if(language=='javascript'){
+      output = await executeJs(filePath, inputFile,language);
+    }
     console.log(output);
     const outputdataBuffer = await fs.readFile(output);
     const outputdataString = outputdataBuffer.toString();
