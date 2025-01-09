@@ -21,10 +21,14 @@ const generateFile=async(format,content) => {
   {
     a='py'
   }
+  else if(format=='javascript')
+    {
+      a='js'
+    }
   const fileName=`${jobId}.${a}`;
   const filePath=path.join(dirCodes,fileName);
   fs.writeFileSync(filePath,content);
-  await fs.writeFileSync(filePath,content);
+  // await fs.writeFileSync(filePath,content);
   return filePath;
 };
 export default generateFile;

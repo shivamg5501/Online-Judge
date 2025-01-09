@@ -17,6 +17,8 @@ router.post("/addProblems",async(req,res)=>{
     // 3->  code of answer
     // 4->  input file for test case generation 
     // 5->  3+4-> vardict file
+      // return res.status(201).json({ message: "empty code" });
+  console.log('inside add problem');
     const { name,description, testCase,language,code,inputFile } = req.body;
     const  status="admin";
     let  arrysOfconstesProblemId=[];

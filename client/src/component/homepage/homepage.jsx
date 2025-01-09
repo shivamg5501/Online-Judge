@@ -17,7 +17,7 @@ const HomePage = () => {
 
   return (
     <>
-    <Nav/>
+    {/* <Nav/> */}
     <Login/>
     </>
   );

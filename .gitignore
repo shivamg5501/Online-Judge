@@ -8,6 +8,9 @@
 
 # ignore .env files in specific locations (optional but redundant with *.env)
 /server/.env
+/server/codes
+/server/output
+/server/inputFileRun
 
 # testing
 /coverage
