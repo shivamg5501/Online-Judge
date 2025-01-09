@@ -28,7 +28,7 @@ const generateFile=async(format,content) => {
   const fileName=`${jobId}.${a}`;
   const filePath=path.join(dirCodes,fileName);
   fs.writeFileSync(filePath,content);
-  await fs.writeFileSync(filePath,content);
+  // await fs.writeFileSync(filePath,content);
   return filePath;
 };
 export default generateFile;
