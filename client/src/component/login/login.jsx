@@ -1,44 +1,43 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AccountContext } from '../../contest/AccountProvider';
-import { LockKeyhole, Mail, ArrowRight } from 'lucide-react';
-import { useAuth } from '../../AuthProvider';
-
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AccountContext } from "../../contest/AccountProvider";
+import { LockKeyhole, Mail, ArrowRight } from "lucide-react";
+import { useAuth } from "../../AuthProvider";
 
 const Login = () => {
   const { setAccount } = useContext(AccountContext);
   const { login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
-  
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-      
+
       const data = await response.json();
       localStorage.setItem("token", data.message.token);
       login();
       // setAccount(data.message.obj);
-      navigate('/problem');
+      navigate("/problem");
     } catch (error) {
       if (error.response?.status === 405) {
-        alert('Invalid credentials. Please check your password.');
-        navigate('/');
+        alert("Invalid credentials. Please check your password.");
+        navigate("/");
       } else {
-        navigate('/register');
+        navigate("/register");
       }
     }
   };
@@ -49,9 +48,11 @@ const Login = () => {
         <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
           <div className="text-center space-y-2">
             <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
-            <p className="text-gray-500">Please enter your details to sign in</p>
+            <p className="text-gray-500">
+              Please enter your details to sign in
+            </p>
           </div>
-          
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">
@@ -102,13 +103,15 @@ const Login = () => {
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Don't have an account?</span>
+                <span className="px-2 bg-white text-gray-500">
+                  Don't have an account?
+                </span>
               </div>
             </div>
 
             <button
               type="button"
-              onClick={() => navigate('/register')}
+              onClick={() => navigate("/register")}
               className="w-full bg-white text-blue-600 py-2 px-4 rounded-lg border border-blue-600 hover:bg-blue-50 transition duration-200"
             >
               Create Account
