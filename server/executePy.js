@@ -16,12 +16,12 @@ if (!fs.existsSync(outputPath)) {
   fs.mkdirSync(outputPath, { recursive: true });
 }
 
-const executeJs = (filepath, inputPath) => {
+const executePy = (filepath, inputPath) => {
   const jobId = path.basename(filepath).split(".")[0];
 //   const outputPath = path.join(__dirname, "output_file");
   const outputFilePath = path.join(outputPath, `${jobId}.txt`);
   return new Promise((resolve, reject) => {
-    exec(`node "${path.resolve(filepath)}"`, (error, stdout, stderr) => {
+    exec(`py "${path.resolve(filepath)}"`, (error, stdout, stderr) => {
       console.log("Executed");
       console.log("Filepath and OutputPath:", filepath, outputFilePath);
 
@@ -49,4 +49,4 @@ const executeJs = (filepath, inputPath) => {
   });
 };
 
-export default executeJs;
+export default executePy;
