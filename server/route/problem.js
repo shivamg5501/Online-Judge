@@ -1,16 +1,21 @@
 import express from "express";
-import Submission from "../models/addProblem.js";
+import AddProblem from "../models/addProblem.js";
 
 const problemNameRouter = express.Router();
 
 problemNameRouter.get("/problem", async (req, res) => {
   try {
-    const submissions = await Submission.find({});
-    const problemData = submissions.map((submission) => ({
-      id: submission._id,
-      name: submission.name,
+    const problems = await AddProblem.find({});
+    const transformedProblems = problems.map(problem => ({
+      id: problem._id,
+      name: problem.name,
+      difficulty: problem.difficulty || 'Unknown',
+      category: 'General', // Set a default or fetch from DB if available
+      timeLimit: problem.timeLimit,
+      successRate: 'N/A', // Calculate success rate if implemented
+      description: problem.description,
     }));
-    res.json(problemData);
+    return res.status(200).json({ data: transformedProblems });
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch names.' });
   }

@@ -21,24 +21,26 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/problem" element={<ProblemName />} />
+            <Route path="/problem/:id" element={<ProblemIdPage />} />
   
             {/* Protected Routes */}
-            <Route
+            {/* <Route
               path="/problem"
               element={
                 <ProtectedRoute>
                   <ProblemName />
                 </ProtectedRoute>
               }
-            />
-            <Route
+            /> */}
+            {/* <Route
               path="/problem/:id"
               element={
                 <ProtectedRoute>
                   <ProblemIdPage />
                 </ProtectedRoute>
               }
-            />
+            /> */}
             <Route
               path="/problem/:id/submission"
               element={

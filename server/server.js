@@ -24,9 +24,9 @@ app.use("/api/admin",adminRoutes)
 app.use("/",registrationRouter);
 app.use("/",loginRoute);
 app.use("/",HostImage);
-app.use("/",authMiddleware,CoderunningRoute)
-app.use("/",authMiddleware,ProblemidRouter);
-app.use("/",authMiddleware,problemNameRouter);
+app.use("/",CoderunningRoute)
+app.use("/",ProblemidRouter);
+app.use("/",problemNameRouter);
 app.use("/",authMiddleware,coderunRoute);
 app.use("/",authMiddleware,getInputFilerouter);
 app.use("/",authMiddleware,ProblemSubmittedRouter);

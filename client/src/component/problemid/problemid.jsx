@@ -75,14 +75,14 @@ You can return the answer in any order.`,
   const fetchProblem = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
-      // const response = await axios.get(`http://localhost:8000/problem/${id}`, {
-      //   headers: {
-      //     Authorization: `token ${token}`,
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-      // setProblem(response.data);
-      setProblem(mockProblemData);
+      const response = await axios.get(`http://localhost:8000/problem/${id}`, {
+        headers: {
+          Authorization: `token ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setProblem(response.data);
+      // setProblem(mockProblemData);
     } catch (error) {
       console.error("Error fetching problem data:", error.message);
     }
