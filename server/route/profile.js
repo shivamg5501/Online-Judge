@@ -38,6 +38,7 @@ Profile.get("/profile", authenticate, async (req, res) => {
 // Update Profile
 Profile.put("/profile", authenticate, async (req, res) => {
     const { name, gender, imageUrl, bio } = req.body;
+    console.log("from server",req.body);
   
     try {
       const user = await User.findById(req.userId);

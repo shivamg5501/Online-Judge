@@ -2,15 +2,19 @@ import express from 'express';
 import generateFile from '../generateFile.js';
 import executeCpp from '../executeCpp.js';
 import { compareFiles } from '../comparefile.js';
-import Submission from "../models/addProblem.js";
+import submissionSchema from "../models/addProblem.js";
 import SubmitedProblem from '../models/problemSbmitUser.js';
 
 const coderunRoute = express.Router();
 
 coderunRoute.post("/problem/submit/:id", async (req, res) => {
   const userId = req.userId; // Access the user ID from the req object
-  const finding = await Submission.findById(req.params.id);
+  console.log(userId);
+  const finding = await submissionSchema.findById(req.params.id);
+  console.log(finding);
+
   const inputFile = await finding.inputFile;
+  console.log("inputfile",inputFile);
   const verdictFile = await finding.verdictFile;
   console.log("USER ID =",userId);
   const { language , code } = req.body;

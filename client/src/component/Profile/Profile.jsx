@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Camera, Save, Edit3, X } from 'lucide-react';
-import { AccountContext } from '../../contest/AccountProvider';
+import React, { useEffect, useState } from 'react';
+import { Camera, Save, Edit3, X, Trophy, Star, Code2, Users } from 'lucide-react';
+import Nav from './LeftNav';
 
 const Profile = () => {
-  const { account } = useContext(AccountContext);
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
@@ -44,6 +43,10 @@ const Profile = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setPreviewImage(e.target.result);
+        setEditForm(prev => ({
+          ...prev,
+          imageFile: file
+        }));
       };
       reader.readAsDataURL(file);
     }
@@ -52,47 +55,28 @@ const Profile = () => {
   const handleSave = async () => {
     try {
       const token = localStorage.getItem('token');
-      const formData = new FormData();
-      
-      // Append text fields
-      formData.append('name', editForm.name);
-      formData.append('bio', editForm.bio);
-      formData.append('gender', editForm.gender);
-      
-      // Append image file if it exists
-      if (editForm.imageFile) {
-        formData.append('image', editForm.imageFile);
-      }
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-      
-      console.log("form data",formData);
+      const payload = {
+        name: editForm.name,
+        bio: editForm.bio,
+        gender: editForm.gender,
+        imageUrl: previewImage || editForm.imageUrl
+      };
+
       const response = await fetch('http://localhost:8000/profile', {
         method: 'PUT',
         headers: {
-          'Authorization': `token ${token}`,
-          // Don't set Content-Type when sending FormData
-          // The browser will set it automatically with the correct boundary
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
-        body: formData
+        body: JSON.stringify(payload)
       });
-      console.log("after calling api");
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error('Failed to update profile');
 
       const updatedData = await response.json();
-      
-      // Update the local state with the response from the server
       setUserData(updatedData.profile);
       setPreviewImage(null);
       setIsEditing(false);
-      
-      // Show success message
-      alert('Profile updated successfully!');
-      
     } catch (error) {
       console.error('Error updating profile:', error);
       alert('Failed to update profile. Please try again.');
@@ -115,20 +99,22 @@ const Profile = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Profile Header */}
-        <div className="relative h-48 bg-gradient-to-r from-blue-500 to-purple-500">
-          <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
-            <div className="relative">
+    
+    <div className=" mx-auto bg-gray-50 min-h-screen">
+      <Nav />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-2">
+        {/* Left Column - Profile Card */}
+        <div className="lg:col-span-1 bg-white rounded-lg shadow-lg p-6">
+          <div className="relative flex flex-col items-center">
+            <div className="relative w-40 h-40 mb-4">
               <img
-                src={previewImage || userData.imageUrl || '/api/placeholder/128/128'}
+                src={previewImage || userData.imageUrl || 'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659652_640.png'}
                 alt="profile"
-                className="w-32 h-32 rounded-full border-4 border-white object-cover"
+                className="w-full h-full rounded-full object-cover ring-4 ring-blue-100"
               />
               {isEditing && (
-                <label className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-lg cursor-pointer">
-                  <Camera className="w-5 h-5 text-gray-600" />
+                <label className="absolute bottom-2 right-2 bg-blue-500 p-2 rounded-full cursor-pointer hover:bg-blue-600 transition-colors">
+                  <Camera className="w-5 h-5 text-white" />
                   <input
                     type="file"
                     className="hidden"
@@ -138,95 +124,157 @@ const Profile = () => {
                 </label>
               )}
             </div>
-          </div>
-        </div>
 
-        {/* Profile Content */}
-        <div className="pt-20 px-6 pb-6">
-          <div className="text-center mb-6">
             {isEditing ? (
               <input
                 type="text"
                 name="name"
                 value={editForm.name}
                 onChange={handleChange}
-                className="text-2xl font-bold text-center w-full border-b-2 border-gray-200 focus:border-blue-500 outline-none"
+                className="text-2xl font-bold text-center w-full border-b-2 border-gray-200 focus:border-blue-500 outline-none mb-2"
               />
             ) : (
-              <h1 className="text-2xl font-bold">{userData.name}</h1>
+              <h1 className="text-2xl font-bold mb-2">{userData.name}</h1>
             )}
-          </div>
 
-          {/* Bio Section */}
-          <div className="mb-6">
-            <h2 className="text-sm font-semibold text-gray-500 mb-2">Bio</h2>
-            {isEditing ? (
-              <textarea
-                name="bio"
-                value={editForm.bio}
-                onChange={handleChange}
-                rows="3"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="Tell us about yourself..."
-              />
-            ) : (
-              <p className="text-gray-700">{userData.bio || 'No bio added yet'}</p>
-            )}
-          </div>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="text-sm font-semibold text-gray-500">Problems Solved</h3>
-              <p className="text-2xl font-bold text-blue-600">{userData.problemsSolved}</p>
+            {/* Quick Stats */}
+            <div className="flex gap-4 mb-6 text-gray-600">
+              <div className="flex items-center gap-1">
+                <Trophy className="w-4 h-4" />
+                <span>Rank 42</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Star className="w-4 h-4" />
+                <span>2.5k</span>
+              </div>
             </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="text-sm font-semibold text-gray-500">Gender</h3>
+
+            {/* Bio Section */}
+            <div className="w-full mb-6">
+              <h2 className="text-sm font-semibold text-gray-500 mb-2">About Me</h2>
+              {isEditing ? (
+                <textarea
+                  name="bio"
+                  value={editForm.bio}
+                  onChange={handleChange}
+                  rows="4"
+                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-700"
+                  placeholder="Tell us about yourself..."
+                />
+              ) : (
+                <p className="text-gray-700">{userData.bio || 'No bio added yet'}</p>
+              )}
+            </div>
+
+            {/* Gender Selection */}
+            <div className="w-full mb-6">
+              <h2 className="text-sm font-semibold text-gray-500 mb-2">Gender</h2>
               {isEditing ? (
                 <select
                   name="gender"
                   value={editForm.gender}
                   onChange={handleChange}
-                  className="w-full p-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                 >
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </select>
               ) : (
-                <p className="text-2xl font-bold text-blue-600">{userData.gender}</p>
+                <p className="text-gray-700">{userData.gender}</p>
+              )}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="w-full flex justify-center gap-4">
+              {isEditing ? (
+                <>
+                  <button
+                    onClick={handleSave}
+                    className="flex items-center gap-2 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                  >
+                    <Save className="w-4 h-4" />
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="flex items-center gap-2 px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="flex items-center gap-2 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                  <Edit3 className="w-4 h-4" />
+                  Edit Profile
+                </button>
               )}
             </div>
           </div>
+        </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-center">
-            {isEditing ? (
-              <div className="flex gap-4">
-                <button
-                  onClick={handleSave}
-                  className="flex items-center gap-2 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-                >
-                  <Save className="w-4 h-4" />
-                  Save Changes
-                </button>
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="flex items-center gap-2 px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                  Cancel
-                </button>
+        {/* Right Column - Stats and Activity */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Problems Solved Card */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-blue-100 rounded-lg">
+                  <Code2 className="w-6 h-6 text-blue-500" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Problems Solved</p>
+                  <p className="text-2xl font-bold text-blue-600">{userData.problemsSolved}</p>
+                </div>
               </div>
-            ) : (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="flex items-center gap-2 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              >
-                <Edit3 className="w-4 h-4" />
-                Edit Profile
-              </button>
-            )}
+            </div>
+
+            {/* Contest Rating Card */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-green-100 rounded-lg">
+                  <Trophy className="w-6 h-6 text-green-500" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Contest Rating</p>
+                  <p className="text-2xl font-bold text-green-600">1842</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Global Rank Card */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-purple-100 rounded-lg">
+                  <Users className="w-6 h-6 text-purple-500" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Global Rank</p>
+                  <p className="text-2xl font-bold text-purple-600">#425</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Recent Activity */}
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
+            <div className="space-y-4">
+              {[1, 2, 3].map((_, index) => (
+                <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div>
+                    <p className="font-medium">Solved "Two Sum" in Python</p>
+                    <p className="text-sm text-gray-500">2 hours ago</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
