@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Camera, Save, Edit3, X, Trophy, Star, Code2, Users } from 'lucide-react';
+
+import { formatDistanceToNow } from 'date-fns';
+import { Camera, Save, Edit3, X, Trophy, Star, Code2, Users, Captions } from 'lucide-react';
 import Nav from './LeftNav';
+const getActivityIcon = (type) => {
+  switch (type) {
+    case 'PROBLEM_SOLVED':
+      return 'bg-green-500';
+    case 'CONTEST_PARTICIPATED':
+      return 'bg-yellow-500';
+    case 'CODE_SUBMITTED':
+      return 'bg-blue-500';
+    default:
+      return 'bg-gray-500';
+  }
+};
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -38,11 +52,14 @@ const Profile = () => {
   }, []);
 
   const handleImageChange = (e) => {
+    // console.log("function calling");
     const file = e.target.files[0];
+    // console.log("file",file);
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         setPreviewImage(e.target.result);
+        // console.log("image url",previewImage)
         setEditForm(prev => ({
           ...prev,
           imageFile: file
@@ -55,6 +72,7 @@ const Profile = () => {
   const handleSave = async () => {
     try {
       const token = localStorage.getItem('token');
+      console.log("image url",previewImage)
       const payload = {
         name: editForm.name,
         bio: editForm.bio,
@@ -97,7 +115,37 @@ const Profile = () => {
       </div>
     );
   }
+  const renderRecentActivity = () => {
+    if (!userData?.recentActivity || userData.recentActivity.length === 0) {
+      return (
+        <div className="text-center text-gray-500 py-4">
+          No recent activity
+        </div>
+      );
+    }
 
+    return (
+      <div className="space-y-4">
+        {userData.recentActivity.map((activity) => (
+          <div 
+            key={activity._id} 
+            className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
+          >
+            <div className={`w-2 h-2 rounded-full ${getActivityIcon(activity.type)}`} />
+            <div>
+              <p className="font-medium">
+                {activity.message}
+                {activity.language && ` in ${activity.language}`}
+              </p>
+              <p className="text-sm text-gray-500">
+                {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
   return (
     
     <div className=" mx-auto bg-gray-50 min-h-screen">
@@ -242,7 +290,7 @@ const Profile = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Contest Rating</p>
-                  <p className="text-2xl font-bold text-green-600">1842</p>
+                  <p className="text-2xl font-bold text-green-600">{userData.contestRating}</p>
                 </div>
               </div>
             </div>
@@ -255,7 +303,7 @@ const Profile = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Global Rank</p>
-                  <p className="text-2xl font-bold text-purple-600">#425</p>
+                  <p className="text-2xl font-bold text-purple-600">#{userData.globalRank}</p>
                 </div>
               </div>
             </div>
@@ -264,17 +312,7 @@ const Profile = () => {
           {/* Recent Activity */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
-            <div className="space-y-4">
-              {[1, 2, 3].map((_, index) => (
-                <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <div>
-                    <p className="font-medium">Solved "Two Sum" in Python</p>
-                    <p className="text-sm text-gray-500">2 hours ago</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {renderRecentActivity()}
           </div>
         </div>
       </div>

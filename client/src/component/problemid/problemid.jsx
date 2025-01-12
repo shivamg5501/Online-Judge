@@ -71,7 +71,7 @@ You can return the answer in any order.`,
   ],
 };
 
-
+const token = localStorage.getItem("token");
   const fetchProblem = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
@@ -101,7 +101,7 @@ You can return the answer in any order.`,
   const handleRun = async () => {
     setIsRunning(true);
     try {
-      const token = localStorage.getItem("token");
+     
       const response = await axios.post(
         "http://localhost:8000/problem/run",
         { language, code, input },
@@ -121,6 +121,10 @@ You can return the answer in any order.`,
   };
 
   const handleSubmit = async () => {
+    if(!token){
+      navigate('/login');
+    }
+    else{
     setIsRunning(true);
     try {
       const response = await axios.post(
@@ -138,6 +142,7 @@ You can return the answer in any order.`,
       alert("Submission failed.");
     }
     setIsRunning(false);
+  }
   };
 
   if (!problem) {

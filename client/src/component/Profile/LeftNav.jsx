@@ -10,7 +10,7 @@ const Navbar = () => {
   const {logout} = useAuth();
 
   const menuItems = [
-    { label: 'Problems', path: '/problem' },
+    { label: 'Problems', path: '/' },
     { label: 'Contest', path: '/contest' }
   ];
 
@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   const logoutFunction = () =>{
-    // navigate('/');
+    navigate('/');
     logout();
   }
 

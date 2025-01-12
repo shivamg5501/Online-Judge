@@ -19,9 +19,9 @@ function App() {
         <Router>
           <Routes>
             {/* Public Routes */}
-            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<HomePage />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/problem" element={<ProblemName />} />
+            <Route path="/" element={<ProblemName />} />
             <Route path="/problem/:id" element={<ProblemIdPage />} />
   
             {/* Protected Routes */}
