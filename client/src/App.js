@@ -1,16 +1,16 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './component/homepage/homepage';
-import Login from './component/login/login';
-import Register from './component/register/register';
-import ProblemName from './component/problem/problem';
-import ProblemIdPage from './component/problemid/problemid';
-import ProblemSubmission from './component/problemSubmitted/problemSubmitted';
-import ProblemSubmissionCode from './component/problemSubmission/problemSubmission';
-import Nav from './component/Profile/LeftNav';
-import Profile from './component/Profile/Profile';
-import { AuthProvider } from './AuthProvider';
-import ProtectedRoute from './ProtectedRoute';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./component/homepage/homepage";
+import Login from "./component/login/login";
+import Register from "./component/register/register";
+import ProblemName from "./component/problem/problem";
+import ProblemIdPage from "./component/problemid/problemid";
+import ProblemSubmission from "./component/problemSubmitted/problemSubmitted";
+import ProblemSubmissionCode from "./component/problemSubmission/problemSubmission";
+import Nav from "./component/Profile/LeftNav";
+import Profile from "./component/Profile/Profile";
+import { AuthProvider } from "./AuthProvider";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<ProblemName />} />
             <Route path="/problem/:id" element={<ProblemIdPage />} />
-  
+
             {/* Protected Routes */}
             {/* <Route
               path="/problem"

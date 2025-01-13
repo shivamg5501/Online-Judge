@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { Play, Send, Clock, FileCode, CheckCircle, XCircle } from "lucide-react";
+import {
+  Play,
+  Send,
+  Clock,
+  FileCode,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 import Nav from "../Profile/LeftNav";
 
 const languageTemplates = {
@@ -32,46 +39,46 @@ const ProblemDetailPage = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [activeTab, setActiveTab] = useState("description");
   // Mock Problem Data
-const mockProblemData = {
-  id: "1",
-  name: "Two Sum",
-  description: `Given an array of integers nums and an integer target, return indices of the two numbers in nums such that they add up to target.
+  const mockProblemData = {
+    id: "1",
+    name: "Two Sum",
+    description: `Given an array of integers nums and an integer target, return indices of the two numbers in nums such that they add up to target.
 
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
 You can return the answer in any order.`,
-  difficulty: "Easy",
-  timeLimit: "1s",
-  memoryLimit: "256MB",
-  testCases: [
-    {
-      input: "nums = [2,7,11,15], target = 9",
-      expectedOutput: "[0,1]",
-      explanation: "Because nums[0] + nums[1] == 9, we return [0, 1].",
-    },
-    {
-      input: "nums = [3,2,4], target = 6",
-      expectedOutput: "[1,2]",
-      explanation: "Because nums[1] + nums[2] == 6, we return [1, 2].",
-    },
-    {
-      input: "nums = [3,3], target = 6",
-      expectedOutput: "[0,1]",
-      explanation: "Because nums[0] + nums[1] == 6, we return [0, 1].",
-    },
-  ],
-  submissions: [
-    {
-      status: "Accepted",
-      timestamp: "2 minutes ago",
-    },
-    {
-      status: "Wrong Answer",
-      timestamp: "5 minutes ago",
-    },
-  ],
-};
+    difficulty: "Easy",
+    timeLimit: "1s",
+    memoryLimit: "256MB",
+    testCases: [
+      {
+        input: "nums = [2,7,11,15], target = 9",
+        expectedOutput: "[0,1]",
+        explanation: "Because nums[0] + nums[1] == 9, we return [0, 1].",
+      },
+      {
+        input: "nums = [3,2,4], target = 6",
+        expectedOutput: "[1,2]",
+        explanation: "Because nums[1] + nums[2] == 6, we return [1, 2].",
+      },
+      {
+        input: "nums = [3,3], target = 6",
+        expectedOutput: "[0,1]",
+        explanation: "Because nums[0] + nums[1] == 6, we return [0, 1].",
+      },
+    ],
+    submissions: [
+      {
+        status: "Accepted",
+        timestamp: "2 minutes ago",
+      },
+      {
+        status: "Wrong Answer",
+        timestamp: "5 minutes ago",
+      },
+    ],
+  };
 
-const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const fetchProblem = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
@@ -101,7 +108,6 @@ const token = localStorage.getItem("token");
   const handleRun = async () => {
     setIsRunning(true);
     try {
-     
       const response = await axios.post(
         "http://localhost:8000/problem/run",
         { language, code, input },
@@ -121,28 +127,27 @@ const token = localStorage.getItem("token");
   };
 
   const handleSubmit = async () => {
-    if(!token){
-      navigate('/login');
+    if (!token) {
+      navigate("/login");
+    } else {
+      setIsRunning(true);
+      try {
+        const response = await axios.post(
+          `http://localhost:8000/problem/submit/${id}`,
+          { language, code },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        alert("Code submitted successfully!");
+      } catch (error) {
+        console.error("Error submitting code:", error.message);
+        alert("Submission failed.");
+      }
+      setIsRunning(false);
     }
-    else{
-    setIsRunning(true);
-    try {
-      const response = await axios.post(
-        `http://localhost:8000/problem/submit/${id}`,
-        { language, code },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      alert("Code submitted successfully!");
-    } catch (error) {
-      console.error("Error submitting code:", error.message);
-      alert("Submission failed.");
-    }
-    setIsRunning(false);
-  }
   };
 
   if (!problem) {
@@ -164,7 +169,9 @@ const token = localStorage.getItem("token");
               <button
                 onClick={() => setActiveTab("description")}
                 className={`px-4 py-2 rounded-md ${
-                  activeTab === "description" ? "bg-blue-500 text-white" : "bg-gray-100"
+                  activeTab === "description"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100"
                 }`}
               >
                 Description
@@ -172,7 +179,9 @@ const token = localStorage.getItem("token");
               <button
                 onClick={() => setActiveTab("submissions")}
                 className={`px-4 py-2 rounded-md ${
-                  activeTab === "submissions" ? "bg-blue-500 text-white" : "bg-gray-100"
+                  activeTab === "submissions"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100"
                 }`}
               >
                 Submissions
@@ -181,7 +190,9 @@ const token = localStorage.getItem("token");
 
             {activeTab === "description" ? (
               <>
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">{problem.name}</h1>
+                <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                  {problem.name}
+                </h1>
                 <div className="flex items-center space-x-4 mb-4">
                   <span className="px-2 py-1 rounded-full bg-green-100 text-green-800 text-sm">
                     {problem.difficulty}
@@ -192,19 +203,27 @@ const token = localStorage.getItem("token");
                   </span>
                 </div>
                 <div className="prose max-w-none">
-                  <p className="text-gray-700 whitespace-pre-line">{problem.description}</p>
+                  <p className="text-gray-700 whitespace-pre-line">
+                    {problem.description}
+                  </p>
                 </div>
                 <div className="mt-6">
-                  <h2 className="text-lg font-semibold mb-4">Example Test Cases:</h2>
+                  <h2 className="text-lg font-semibold mb-4">
+                    Example Test Cases:
+                  </h2>
                   {problem.testCases.map((testCase, index) => (
                     <div key={index} className="mb-4 p-4 bg-gray-50 rounded-lg">
                       <div className="mb-2">
                         <span className="font-medium">Input: </span>
-                        <code className="bg-gray-100 px-2 py-1 rounded">{testCase.input}</code>
+                        <code className="bg-gray-100 px-2 py-1 rounded">
+                          {testCase.input}
+                        </code>
                       </div>
                       <div className="mb-2">
                         <span className="font-medium">Output: </span>
-                        <code className="bg-gray-100 px-2 py-1 rounded">{testCase.expectedOutput}</code>
+                        <code className="bg-gray-100 px-2 py-1 rounded">
+                          {testCase.expectedOutput}
+                        </code>
                       </div>
                     </div>
                   ))}
