@@ -18,7 +18,7 @@ if (!fs.existsSync(outputPath)) {
 
 const executePy = (filepath, inputPath) => {
   const jobId = path.basename(filepath).split(".")[0];
-//   const outputPath = path.join(__dirname, "output_file");
+  //   const outputPath = path.join(__dirname, "output_file");
   const outputFilePath = path.join(outputPath, `${jobId}.txt`);
   return new Promise((resolve, reject) => {
     exec(`py "${path.resolve(filepath)}"`, (error, stdout, stderr) => {

@@ -1,15 +1,17 @@
-import { promises as fsPromises } from 'fs';
-import crypto from 'crypto';
+import { promises as fsPromises } from "fs";
+import crypto from "crypto";
 
 // Function to calculate the MD5 hash of a file
 async function calculateFileMD5(filePath) {
   try {
-    const fileData = await fsPromises.readFile(filePath, 'utf8');
+    const fileData = await fsPromises.readFile(filePath, "utf8");
     console.log(fileData);
-    const md5Hash = crypto.createHash('md5').update(fileData).digest('hex');
+    const md5Hash = crypto.createHash("md5").update(fileData).digest("hex");
     return md5Hash;
   } catch (error) {
-    throw new Error(`Error reading file or calculating MD10  and hash: ${error.message}`);
+    throw new Error(
+      `Error reading file or calculating MD10  and hash: ${error.message}`
+    );
   }
 }
 
@@ -20,8 +22,8 @@ async function compareFiles(verdictFilePath, generatedCodeFilePath) {
     const generatedCodeMD5 = await calculateFileMD5(generatedCodeFilePath);
     console.log(verdictFilePath);
     console.log(generatedCodeFilePath);
-    console.log('Verdict File MD5:', verdictMD5);
-    console.log('Generated Code File MD5:', generatedCodeMD5);
+    console.log("Verdict File MD5:", verdictMD5);
+    console.log("Generated Code File MD5:", generatedCodeMD5);
 
     return verdictMD5 === generatedCodeMD5;
   } catch (error) {
