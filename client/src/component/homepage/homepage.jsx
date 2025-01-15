@@ -4,14 +4,13 @@ import './HomePage.css';
 import Nav from '../Profile/LeftNav';
 import Login from '../login/login';
 const HomePage = () => {
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate(); 
 
-  // Function to handle the onClick event of the Login button
   const handleLoginClick = () => {
-    navigate('/login'); // Redirect to the /login route when the button is clicked
+    navigate('/login'); 
   };
   const handleRegisterClick = () => {
-    navigate('/register'); // Redirect to the /register route when the button is clicked
+    navigate('/register'); 
   };
 
 

@@ -31,7 +31,7 @@ const Login = () => {
       localStorage.setItem("token", data.message.token);
       login();
       // setAccount(data.message.obj);
-      navigate("/problem");
+      navigate("/");
     } catch (error) {
       if (error.response?.status === 405) {
         alert("Invalid credentials. Please check your password.");

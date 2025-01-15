@@ -10,7 +10,7 @@ const Navbar = () => {
   const {logout} = useAuth();
 
   const menuItems = [
-    { label: 'Problems', path: '/problem' },
+    { label: 'Problems', path: '/' },
     { label: 'Contest', path: '/contest' }
   ];
 
@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   const logoutFunction = () =>{
-    // navigate('/');
+    navigate('/');
     logout();
   }
 
@@ -70,6 +70,7 @@ const Navbar = () => {
                     onClick={() => {
                       setIsDrawerOpen(true);
                       setIsProfileOpen(true);
+                      handleMenuClick('/profile')
                     }}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >

@@ -11,6 +11,8 @@
 /server/codes
 /server/output
 /server/inputFileRun
+/server/input_file
+/server/output_file
 
 # testing
 /coverage

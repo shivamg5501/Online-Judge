@@ -59,7 +59,7 @@ const Register = () => {
 
       const data = await response.json();
       localStorage.setItem("token", data.token);
-      navigate('/problem');
+      navigate('/');
     } catch (error) {
       console.error('Registration failed:', error.message);
     }
