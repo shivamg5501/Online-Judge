@@ -6,14 +6,16 @@ dotenv.config();
 
 const MONGO_URL = process.env.MONGODB_URL;
 if (!MONGO_URL) {
-    throw new Error("MongoDB connection string is not provided in the environment variables.");
-  }
+  throw new Error(
+    "MongoDB connection string is not provided in the environment variables."
+  );
+}
 const storage = new GridFsStorage({
   url: MONGO_URL,
   options: {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    writeConcern: { w: 'majority' },
+    writeConcern: { w: "majority" },
   },
   file: (request, file) => {
     const match = ["image/png", "image/jpg"];
