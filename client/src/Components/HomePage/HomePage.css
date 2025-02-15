@@ -1,0 +1,46 @@
+/* HomePage.css */
+
+#home {
+  padding: 40px;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #333;
+  text-align: center;
+}
+
+.blog-box {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.blog-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.date {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.content {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555;
+}
